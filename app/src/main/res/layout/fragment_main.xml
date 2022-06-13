@@ -6,7 +6,9 @@
         <variable
             name="viewModel"
             type="com.tanvir.asteroidradar.main.MainViewModel" />
-
+        <variable
+            name="podModel"
+            type="com.tanvir.asteroidradar.domain.PodModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -27,7 +29,8 @@
                 android:layout_height="match_parent"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
-                app:srcCompat="@drawable/placeholder_picture_of_day"/>
+                android:contentDescription="@string/displaying_the_image_of_the_day"
+                app:podImage="@{podModel.url}"/>
 
             <TextView
                 android:id="@+id/textView"
@@ -39,7 +42,7 @@
                 android:textSize="20sp"
                 android:layout_gravity="bottom"
                 android:background="#55010613"
-                android:text="@string/image_of_the_day" />
+                android:text="@{podModel.title}" />
         </FrameLayout>
 
         <androidx.recyclerview.widget.RecyclerView

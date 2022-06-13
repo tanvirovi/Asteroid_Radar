@@ -22,7 +22,7 @@
         tools:layout="@layout/fragment_detail">
         <argument
             android:name="selectedAsteroid"
-            app:argType="com.tanvir.asteroidradar.database.Asteroid" />
+            app:argType="com.tanvir.asteroidradar.domain.AsteroidModel" />
     </fragment>
 
 </navigation>

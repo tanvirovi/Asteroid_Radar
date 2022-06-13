@@ -1,65 +1,48 @@
 package com.tanvir.asteroidradar.main
 
-import android.annotation.SuppressLint
 import android.app.Application
-import android.os.Build
-import android.util.Log
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.*
-import com.tanvir.asteroidradar.Constants
+import com.tanvir.asteroidradar.GetDate
 import com.tanvir.asteroidradar.database.getDatabase
+import com.tanvir.asteroidradar.domain.AsteroidModel
 import com.tanvir.asteroidradar.repository.AsteroidRepository
 import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
-import java.util.*
 
 enum class NasaApiStatus { LOADING, ERROR, DONE }
 
-@RequiresApi(Build.VERSION_CODES.N)
 class MainViewModel(app: Application) : AndroidViewModel(app) {
 
     private val _status = MutableLiveData<NasaApiStatus>()
     val status: LiveData<NasaApiStatus>
         get() = _status
 
+    private val _navigateToFragmentDetails = MutableLiveData<AsteroidModel?>()
+    val navigateToFragmentDetails
+        get() = _navigateToFragmentDetails
+
     private val database = getDatabase(app)
     private val asteroidRepo = AsteroidRepository(database)
+    val asteroidWeekList = asteroidRepo.asteroid
+    val asteroidTodayList = asteroidRepo.todayAsteroid
+    val pod = asteroidRepo.pod
 
     /**
      * init{} is called immediately when this ViewModel is created.
      */
     init {
-        val startDate = getCurrentDate()
-        val endDate = getCalculatedDate(startDate,Constants.API_QUERY_DATE_FORMAT,7)
+        val date = GetDate()
         viewModelScope.launch {
-            asteroidRepo.refreshData(startDate, endDate)
+            asteroidRepo.refreshData(date.startDate, date.endDate)
+            asteroidRepo.refreshPodData()
         }
     }
 
-    val playlist = asteroidRepo.asteroid
-
-    @SuppressLint("WeekBasedYear")
-    @RequiresApi(Build.VERSION_CODES.N)
-    fun getCurrentDate(): String {
-        val cal = Calendar.getInstance()
-        val currentTime = cal.time
-        val dateFormat = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            SimpleDateFormat(Constants.API_QUERY_DATE_FORMAT, Locale.getDefault())
-        } else {
-            TODO("VERSION.SDK_INT < N")
-        }
-        Log.e("Current Date", dateFormat.format(currentTime))
-        return dateFormat.format(currentTime)
+    fun onAsteroidClicked(item: AsteroidModel) {
+        _navigateToFragmentDetails.value = item
     }
 
-    fun getCalculatedDate(date: String, dateFormat: String, days: Int): String {
-        val cal = Calendar.getInstance()
-        val s = SimpleDateFormat(dateFormat)
-        if (date.isNotEmpty()) {
-            cal.time = s.parse(date) as Date
-        }
-        cal.add(Calendar.DAY_OF_YEAR, days)
-        return s.format(Date(cal.timeInMillis))
+    fun onFragmentDetailsNavigated() {
+        _navigateToFragmentDetails.value = null
     }
 
     class Factory(val app: Application) : ViewModelProvider.Factory {

@@ -7,7 +7,7 @@
 
         <variable
             name="asteroid"
-            type="com.tanvir.asteroidradar.database.Asteroid" />
+            type="com.tanvir.asteroidradar.domain.AsteroidModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -20,10 +20,12 @@
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
             app:asteroidStatusImage="@{asteroid.potentiallyHazardous}"
+            app:asteroidStatusImageDescription="@{asteroid.potentiallyHazardous}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:srcCompat="@drawable/asteroid_safe" />
+            tools:srcCompat="@drawable/asteroid_safe"
+            android:contentDescription="@string/hazardous_description" />
 
         <ScrollView
             android:layout_width="0dp"
@@ -93,7 +95,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="16dp"
-                        app:srcCompat="@drawable/ic_help_circle" />
+                        app:srcCompat="@drawable/ic_help_circle"
+                        android:contentDescription="@string/for_explaining_what_is_an_astronomical_unit" />
 
                 </LinearLayout>
 

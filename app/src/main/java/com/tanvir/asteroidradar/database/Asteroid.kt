@@ -1,14 +1,15 @@
 package com.tanvir.asteroidradar.database
 
-import android.os.Parcelable
+import android.util.Log
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.tanvir.asteroidradar.domain.AsteroidModel
 import kotlinx.parcelize.Parcelize
+import android.os.Parcelable as Parcelable1
 
 @Parcelize
 @Entity(tableName = "asteroid_info_table")
-data class Asteroid constructor(
+data class Asteroid (
     @PrimaryKey
     val id: Long,
     val codename: String,
@@ -18,7 +19,10 @@ data class Asteroid constructor(
     val relativeVelocity: Double,
     val distanceFromEarth: Double,
     val isPotentiallyHazardous: Boolean
-) : Parcelable
+) : Parcelable1{
+    val checkDate
+    get() = closeApproachDate
+}
 
 fun List<Asteroid>.asDomainModel(): List<AsteroidModel> {
     return map {
