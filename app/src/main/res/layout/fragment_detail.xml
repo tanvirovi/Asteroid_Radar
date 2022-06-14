@@ -20,12 +20,10 @@
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
             app:asteroidStatusImage="@{asteroid.potentiallyHazardous}"
-            app:asteroidStatusImageDescription="@{asteroid.potentiallyHazardous}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:srcCompat="@drawable/asteroid_safe"
-            android:contentDescription="@string/hazardous_description" />
+            tools:srcCompat="@drawable/asteroid_safe" />
 
         <ScrollView
             android:layout_width="0dp"

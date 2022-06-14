@@ -28,17 +28,13 @@ fun bindPodImage(imageView: ImageView, url: String?) {
 fun bindDetailsStatusImage(imageView: ImageView, isHazardous: Boolean) {
     if (isHazardous) {
         imageView.setImageResource(R.drawable.asteroid_hazardous)
+        imageView.contentDescription = imageView.context.getString(R.string.hazardous_description)
     } else {
         imageView.setImageResource(R.drawable.asteroid_safe)
+        imageView.contentDescription = imageView.context.getString(R.string.not_hazardous_description)
+
     }
 }
-@BindingAdapter("asteroidStatusImageDescription")
-fun bindDetailsStatusImageDescription(imageView: ImageView, isHazardous: Boolean) =
-    if (isHazardous) {
-        imageView.contentDescription = R.string.hazardous_description.toString()
-    } else {
-        imageView.setImageResource(R.drawable.asteroid_safe)
-    }
 
 @BindingAdapter("astronomicalUnitText")
 fun bindTextViewToAstronomicalUnit(textView: TextView, number: Double) {

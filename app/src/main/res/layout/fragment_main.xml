@@ -29,7 +29,7 @@
                 android:layout_height="match_parent"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
-                android:contentDescription="@string/displaying_the_image_of_the_day"
+                android:contentDescription="@{podModel.title}"
                 app:podImage="@{podModel.url}"/>
 
             <TextView
